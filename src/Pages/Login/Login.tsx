@@ -2,22 +2,47 @@ import { Navigate } from 'react-router-dom';
 import { useUserStore } from '../../store/userStore';
 import { Button, Form, Input, message } from 'antd';
 import classes from './Login.module.scss';
+import { fetchPost } from '../../api/fetchData';
+import jwt_decode from 'jwt-decode';
 
 interface ILoginFields {
-  username: string;
+  userName: string;
   password: string;
+}
+
+interface IAuthResponse {
+  fio: string;
+  token: string;
+}
+
+const MS_NAME = 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name';
+const MS_ROLE = 'http://schemas.microsoft.com/ws/2008/06/identity/claims/role';
+
+interface IJwtO {
+  exp: number;
+  auth: string;
+  iss: number;
+  [MS_NAME]: string;
+  [MS_ROLE]: string;
 }
 
 export const Login = () => {
   const [user, login] = useUserStore((state) => [state.user, state.login]);
   const [form] = Form.useForm();
 
-  const onFinish = ({ password, username }: ILoginFields) => {
-    if (password === '1' && username === '1') {
-      login({ name: 'test user', token: '--', role: '--' });
-    } else {
-      message.error('Неверное имя пользователя и пароль');
-    }
+  const onFinish = (values: ILoginFields) => {
+    fetchPost('Account/login', { ...values, rememberMe: true }).then((res) => {
+      const token = (res as IAuthResponse)?.token;
+      if (token) {
+        const decoded: IJwtO = jwt_decode(token);
+        if (decoded) {
+          console.log('Decoded: ', decoded);
+          login({ name: decoded[MS_NAME], token: token, role: decoded[MS_ROLE] });
+        } else {
+          message.error('Ошибка сервера');
+        }
+      }
+    });
   };
 
   if (user) {
@@ -39,7 +64,7 @@ export const Login = () => {
         >
           <Form.Item<ILoginFields>
             label={'Пользователь'}
-            name="username"
+            name="userName"
             rules={[{ required: true, message: 'Обязательно' }]}
           >
             <Input />
