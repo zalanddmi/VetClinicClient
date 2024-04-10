@@ -1,5 +1,3 @@
-import { Space } from 'antd';
-import ExcelButton from '../../Components/Buttons/ExcelButton';
 import { DataTable } from '../../Components/DataTable/DataTable';
 import { IEntity } from '../../api/serverTypes';
 
@@ -14,18 +12,24 @@ const IDrugs: IEntity = {
     {
       dataIndex: 'name',
       title: 'Название',
+      editable: true,
     },
     {
       dataIndex: 'cost',
       title: 'Стоимость',
+      inputType: 'number',
+      editable: true,
     },
     {
       dataIndex: 'quantity',
       title: 'Количество',
+      inputType: 'number',
+      editable: true,
     },
     {
       dataIndex: 'description',
       title: 'Описание',
+      editable: true,
     },
   ],
 };
@@ -34,9 +38,7 @@ export const Drugs: React.FC = () => {
   return (
     <div>
       <h1>Лекарства</h1>
-      <Space style={{ marginBottom: 16 }}>
-        <ExcelButton entity={IDrugs} />
-      </Space>
+
       <DataTable entity={IDrugs} />
     </div>
   );

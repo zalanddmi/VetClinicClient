@@ -3,12 +3,11 @@ import { fetchGet } from '../../api/fetchData';
 import { IEntity } from '../../api/serverTypes';
 import { FileExcelOutlined } from '@ant-design/icons';
 
-
 class FileDownloader {
   static async downloadFile(entity: IEntity): Promise<void> {
     try {
       await fetchGet(`${entity.name}/excel`).then((res) => {
-        const a = document.createElement("a");
+        const a = document.createElement('a');
         a.href = `data:${res.contentType};base64,${res.fileContents}`;
         a.download = res.fileDownloadName;
         a.click();
@@ -23,7 +22,7 @@ interface IDownloadButtonProps {
   entity: IEntity;
 }
 
-const DownloadButton: React.FC<IDownloadButtonProps> = ({ entity }) => {
+const DownloadButton: React.FC<IDownloadButtonProps> = ({ entity }: IDownloadButtonProps) => {
   const handleDownload = async () => {
     await FileDownloader.downloadFile(entity);
   };
