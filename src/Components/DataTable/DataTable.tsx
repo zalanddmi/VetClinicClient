@@ -3,7 +3,7 @@ import { deleteObject, fetchGet, fetchPost, setPut } from '../../api/fetchData';
 import { IEntity } from '../../api/serverTypes';
 import { Button, Form, Popconfirm, Space, Table, Typography } from 'antd';
 import { EditableCell } from './EditableCell';
-import type { TRow } from './EditableCell';
+import type { IEntityCell, TRow } from './EditableCell';
 import ExcelButton from '../Buttons/ExcelButton';
 
 const PAGE_SIZE = 20;
@@ -91,8 +91,24 @@ export const DataTable = ({ entity }: IDataTableProps) => {
     console.log(data);
   }, [data]);
 
-  const columns = entity.fields;
-  columns.push();
+  // рендеры для содержимого ячейки
+  const columns = entity.fields.map((r) => {
+    // дата
+    if (r.inputType === 'date') {
+      return {
+        ...r,
+        render: (d: string) => new Date(d).toLocaleDateString('ru'),
+      };
+    }
+    // entity
+    if (r.inputType === 'entity') {
+      return {
+        ...r,
+        render: (d: IEntityCell) => d.name,
+      };
+    }
+    return r;
+  });
 
   const mergedColumns = [
     ...columns,
