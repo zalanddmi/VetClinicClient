@@ -2,8 +2,16 @@ import { Appointments } from './Appointments/Appointments';
 import { Owners } from './Owners/Owners';
 import { Pets } from './Pets/Pets';
 import {
-  UserOutlined, MedicineBoxOutlined, TwitterOutlined, HeartOutlined,
-  ExperimentOutlined, TeamOutlined, SolutionOutlined, UserSwitchOutlined, BugOutlined
+  UserOutlined,
+  MedicineBoxOutlined,
+  TwitterOutlined,
+  HeartOutlined,
+  ExperimentOutlined,
+  TeamOutlined,
+  SolutionOutlined,
+  UserSwitchOutlined,
+  BugOutlined,
+  BarChartOutlined,
 } from '@ant-design/icons';
 import { Procedures } from './Procedures/Procedures';
 import { Drugs } from './Drugs/Drugs';
@@ -11,6 +19,7 @@ import { Users } from './Users/Users';
 import { Posts } from './Posts/Posts';
 import { Roles } from './Roles/Roles';
 import { Species } from './Species/Species';
+import { Chart } from './Chart/Chart';
 
 interface IPrivateRoute {
   name: string;
@@ -38,42 +47,48 @@ export const privateRoutes: IPrivateRoute[] = [
     name: 'Животные',
     element: <Pets />,
     path: 'pets',
-    icon: <TwitterOutlined />
+    icon: <TwitterOutlined />,
   },
   {
     name: 'Процедуры',
     element: <Procedures />,
     path: 'procedures',
-    icon: <HeartOutlined />
+    icon: <HeartOutlined />,
   },
   {
     name: 'Лекарства',
     element: <Drugs />,
     path: 'drugs',
-    icon: <ExperimentOutlined />
+    icon: <ExperimentOutlined />,
   },
   {
     name: 'Пользователи',
     element: <Users />,
     path: 'users',
-    icon: <TeamOutlined />
+    icon: <TeamOutlined />,
   },
   {
     name: 'Должности',
     element: <Posts />,
     path: 'posts',
-    icon: <SolutionOutlined />
+    icon: <SolutionOutlined />,
   },
   {
     name: 'Роли',
     element: <Roles />,
     path: 'rols',
-    icon: <UserSwitchOutlined />
+    icon: <UserSwitchOutlined />,
   },
   {
     name: 'Виды животных',
     element: <Species />,
     path: 'species',
-    icon: <BugOutlined />
+    icon: <BugOutlined />,
+  },
+  {
+    name: 'Аналитика',
+    element: <Chart />,
+    path: 'chart',
+    icon: <BarChartOutlined />,
   },
 ];
