@@ -1,6 +1,9 @@
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
+import type { ChartData } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
-import faker from 'faker';
+import { useEffect, useState } from 'react';
+import { fetchGet } from '../../api/fetchData';
+import { Spin } from 'antd';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -12,29 +15,17 @@ const options = {
         },
         title: {
             display: true,
-            text: 'Пример графика',
+            text: 'Статистика по приемам',
         },
     },
 };
 
-const labels = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль'];
-
-const data = {
-    labels,
-    datasets: [
-        {
-            label: 'Кошки',
-            data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
-            backgroundColor: 'rgba(255, 99, 132, 0.5)',
-        },
-        {
-            label: 'Собаки',
-            data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
-            backgroundColor: 'rgba(53, 162, 235, 0.5)',
-        },
-    ],
-};
-
 export const Chart = () => {
-    return <Bar options={options} data={data} />;
+    const [dt, setDt] = useState<ChartData<'bar', number[], string> | null>(null);
+
+    useEffect(() => {
+        fetchGet('Chart').then((d) => setDt(d));
+    }, []);
+
+    return dt ? <div><h1>Статистика по приемам</h1><Bar options={options} data={dt} /></div> : <Spin />;
 };
