@@ -8,7 +8,7 @@ export interface IField {
   inputType?: 'text' | 'number' | 'date' | 'entity';
 }
 
-type TEntity = 'Drug' | 'Species' | 'Role' | 'Owner' | 'Procedure' | 'Pet'; // "Entity1" | "Entity2" и т.д.
+type TEntity = 'Drug' | 'Species' | 'Role' | 'Owner' | 'Procedure' | 'Pet' | 'Post' | 'User'; // "Entity1" | "Entity2" и т.д.
 
 export interface IEntity {
   name: TEntity;
