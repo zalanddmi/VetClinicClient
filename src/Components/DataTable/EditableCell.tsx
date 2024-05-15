@@ -28,6 +28,8 @@ interface EditableCellProps extends React.HTMLAttributes<HTMLElement> {
   children: React.ReactNode;
 }
 
+const status: readonly string[] = ['Ожидание', 'Завершен', 'Отменен']
+
 export const EditableCell = ({
   editing,
   dataIndex,
@@ -90,6 +92,27 @@ export const EditableCell = ({
         </Form.Item>
       );
     }
+  } else if (inputType === 'status') {
+    const val = record[dataIndex] as number;
+    const options = status.map((statusValue, index) => ({
+      value: index.toString(),
+      label: statusValue,
+    }));
+    inputNode = (
+      <Form.Item
+        name={dataIndex}
+        style={{ margin: 0 }}
+        rules={[
+          {
+            required: true,
+            message: `Пожалуйста введите ${title}!`,
+          },
+        ]}
+        initialValue={val}
+      >
+        <Select options={options} defaultValue={status[val]} />
+      </Form.Item>
+    );
   } else {
     inputNode = (
       <Form.Item
